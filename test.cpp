@@ -7,15 +7,10 @@
 using namespace std;
 
 int quick_select(vector<int>& nums,vector<int>::iterator first,vector<int>::iterator last,int k){
-        int pivot = *first;
-        vector<int>::iterator p = partition(first,last,[pivot](const int &a){ return a>pivot; });//lambda
-        if(first + k == p) return pivot;
-        if(first + k < p) 
-            return quick_select(nums,first,p,k);//第三个参数范围应该是0 -> p-first
-        else if(first + k > p)
-            return quick_select(nums,p+1,last,(first+k)-p-1);//第三参数应该能取0
-        return -1;
-}
+        //把第k+1大/小的元素放到正确的位置上，quick_select
+        nth_element(first,first+k,last,[](const int &a, const int &b){return a>b;});
+        return nums[k];
+    }
 int findKthLargest(vector<int>& nums, int k) {
         return quick_select(nums,nums.begin(),nums.end(),k-1);//ch index start by 0 第k转化为下标为k-1
 }
