@@ -1,0 +1,1 @@
+sscanf(str,"%d",&n);

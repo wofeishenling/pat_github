@@ -1,0 +1,1 @@
+sprintf(str,"%d",n);

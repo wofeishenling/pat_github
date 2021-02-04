@@ -17,6 +17,7 @@ int findKthLargest(vector<int>& nums, int k) {
 int main(){
     vector<int> nums = {3,2,3,1,2,4,5,5,6};
     findKthLargest(nums,7);
+    printf("%d\n",99);
 	system("pause");
     return 0;
 }
