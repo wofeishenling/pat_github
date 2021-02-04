@@ -1,6 +1,5 @@
 ```c++
 #define ll long long
-using namespace std;
 
 ll gcd(ll a,ll b)
 {
