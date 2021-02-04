@@ -6,14 +6,21 @@
 using namespace std;
 
 void my_nth_element(vector<int>::iterator first,vector<int>::iterator nth,vector<int>::iterator last){
-    vector<int>::iterator p = __unguarded_partition(first,last,*first);
-    
+    while(first < last){
+        vector<int>::iterator p = __unguarded_partition(first,last,*first);//get 3th arg's iterator
+        if(nth == p) break;
+        if(nth > p) first = p + 1;
+        else last = p;
+    }
 }
 
 class Solution {
 public:
     int findKthLargest(vector<int>& nums, int k) {
         //nth_element用quick_select实现，时间复杂度为O(n)
+        //让 第 n 个位置上的元素就位， 
+        //所有在位置 n 之前的元素都小于或等于它，
+        //所有在位置 n 之后的元素都大于或等于它。
         nth_element(nums.begin(),nums.begin()+(k-1),nums.end(),[](const int &a, const int &b){return a>b;});
         return nums[k-1];
     }

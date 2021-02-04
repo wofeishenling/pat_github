@@ -15,7 +15,7 @@ int binarySearch(vector<int> &nums, int l, int r, long long x) {
 			l = mid + 1;
 		}
 		else {
-			r = mid;//右边界不收缩=》取左中位数
+			r = mid;//
 		}
 	}
 	/*
