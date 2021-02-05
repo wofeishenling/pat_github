@@ -22,12 +22,10 @@ int getlength(int L){
 int main(){
     int L1,L2,n;                            //建立静态链表的过程
     int Address,Next;
-    char c;
+    char data;
     scanf("%d%d%d",&L1,&L2,&n);
     while(n--){
-        scanf("%d %c %d",&Address,&c,&Next);
-        static_node[Address].data = c;
-        static_node[Address].next = Next;
+        scanf("%d %c %d",&Address,&data,&Next);
     }
     int len1=getlength(L1);
     int len2=getlength(L2);
@@ -47,8 +45,6 @@ int main(){
         L2=static_node[L2].next;
     }
     if(L1==-1) printf("-1");
-    else printf("%05d",L1);
-    system("pause");
-    getchar();
+    else printf("%d",L1);
     return 0;
 }
