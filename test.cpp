@@ -1,24 +1,27 @@
 #include<stdio.h>
-#include<algorithm>
+#include<iostream>
+#include<string>
+#include<set>
 
 using namespace std;
-const int MAXN = 1010;
-int CBT[MAXN],input[MAXN];
-int N, cnt=0;
-void inorderTraversal(int root){
-    if(root>N) return;
-    inorderTraversal(2*root);
-    CBT[root]=input[cnt++];
-    inorderTraversal(2*root+1);
-}
+
+int hash1[128],hash2[128];
+
 int main(){
-    scanf("%d",&N);
-    for(int i=0;i<N;i++) scanf("%d",&input[i]);
-    sort(input,input+N);
-    inorderTraversal(1);
-    for(int i=1;i<=N;i++){
-        printf("%d",CBT[i]);
-        if(i<N) printf(" ");
+    string s1,s2;
+    cin >> s1 >> s2;
+    for(char e:s1) hash1[e]++;
+    for(char e:s2) hash2[e]++;
+    //迭代器在迭代时不能增减
+    bool flag = true;
+    int cnt = 0;
+    for(int i=0;i<128;i++){
+        if(hash2[i]>hash1[i]){
+            flag = false;
+            cnt += (hash2[i]-hash1[i]);
+        }
     }
+    if(flag) printf("Yes %llu",s1.size()-s2.size());
+    else printf("No %d",cnt);
     return 0;
 }
