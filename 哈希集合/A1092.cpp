@@ -21,7 +21,7 @@ int main(){
             cnt += (hash2[i]-hash1[i]);
         }
     }
-    if(flag) printf("Yes %llu",s1.size()-s2.size());
+    if(flag) printf("Yes %lu",s1.size()-s2.size());
     else printf("No %d",cnt);
     return 0;
 }
