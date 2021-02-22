@@ -24,7 +24,7 @@ void dfs(int depth,int sum,int num_sum,int start){
 int main(){
     scanf("%d%d%d",&N,&K,&P);
     for(int i=1;pow(i,P)<=N;i++)
-        nums.push_back(i);
+        nums.push_back(pow(i,P));
     reverse(nums.begin(), nums.end());
     dfs(0,0,0,0);
     if(res.empty()) printf("Impossible\n");
