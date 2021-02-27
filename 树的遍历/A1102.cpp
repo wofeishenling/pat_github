@@ -39,9 +39,9 @@ int main(){
     scanf("%d\n",&n);
     for(int i=0;i<n;i++){
         char l,r;
-        scanf("%c %c\n",&l,&r);
-        if(l != '-') {static_tree[i].left = l - '0';inq[l-'0'] = 1;}
-        if(r != '-') {static_tree[i].right = r - '0';inq[r-'0'] = 1;}
+        scanf("%c %c",&l,&r);
+        if(l != '-') {static_tree[i].val = l - '0';inq[l-'0'] = 1;}
+        if(r != '-') {static_tree[i].val = r - '0';inq[r-'0'] = 1;}
         static_tree[i].val = i;
     }
     for(int i=0;i<n;i++){

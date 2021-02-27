@@ -16,7 +16,7 @@ struct TreeNode {
 int post[maxn], in[maxn];
 
 TreeNode *buildTree(int postL, int postR, int inL, int inR) {
-  if (inL < inR)
+  if (inL > inR)
     return NULL; // boundary
   int root_key = post[postR];
   TreeNode *root = new TreeNode();
