@@ -1,7 +1,7 @@
 #include <algorithm>
 #include<stdio.h>
 #include<vector>
-
+#include<math.h>
 using namespace std;
 vector<int> nums;
 vector<int> path,res;
@@ -12,6 +12,11 @@ void dfs(int depth,int sum,int num_sum,int start){
         if(sum==N && num_sum>max_sum){
             max_sum = num_sum;
             res = path;
+            for(int i=0;i<path.size();i++){
+                printf(" %d^%d",path[i],P);
+                if(i<path.size()-1) printf(" +");
+            }
+            printf("\n");
         } 
         return ;
     }
