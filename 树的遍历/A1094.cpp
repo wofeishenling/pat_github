@@ -21,7 +21,7 @@ int main(){
             static_tree[address].child.push_back(son);
         }
     }
-    for(int i=1;i<=num_node;i++){
+    for(int i=0;i<num_node;i++){
         if(!not_root[i]){
             root = i;
             break;
@@ -34,7 +34,7 @@ int main(){
         int size = q.size();
         if(size > max){
             max = size;
-            level = cnt;
+            level = max;
         }
         cnt++;
         for(int i=0;i<size;i++){
@@ -45,6 +45,5 @@ int main(){
             }
         }
     }
-    printf("%d %d",max,level);
     return 0;
 }
