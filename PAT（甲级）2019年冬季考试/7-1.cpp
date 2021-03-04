@@ -32,11 +32,11 @@ int main(){
                 for(int u=0;u<5;u++){
                     printf("%c",table[worlds[i][k]-'A'][j][u]);
                 }
-                printf(" ");
+                if(k<worlds[i].size()-1) printf(" ");
             }
             printf("\n");
         }
-        printf("\n");
+        if(i<worlds.size()-1) printf("\n");
     }
     return 0;
 }
