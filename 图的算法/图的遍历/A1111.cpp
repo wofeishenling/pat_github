@@ -31,7 +31,7 @@ void Dijkstra_d(int s){
         if(u==-1) break;
         vis[u] = true;
         for(int v=0;v<n;v++){
-            if(G_d[u][v]!=INF && !vis[v]){
+            if(G_d[u][v]!=INF && vis[v]){
                 if(d[u]+G_d[u][v]<d[v]){
                     d[v] = d[u]+G_d[u][v];
                     t[v] = t[u]+G_t[u][v];
@@ -71,7 +71,7 @@ void Dijkstra_t(int s){
         if(u==-1) break;
         vis[u] = true;
         for(int v=0;v<n;v++){
-            if(G_t[u][v]!=INF && !vis[v]){
+            if(G_t[u][v]!=INF && vis[v]){
                 if(t[u]+G_t[u][v]<t[v]){
                     d[v] = d[u]+G_d[u][v];
                     t[v] = t[u]+G_t[u][v];
