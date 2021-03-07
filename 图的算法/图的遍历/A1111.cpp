@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<algorithm>
+#include<vector>
 
 using namespace std;
 //双边权最短路径
@@ -15,7 +16,6 @@ void Dijkstra_d(int s){
     fill(vis,vis+MAXN,false);
     fill(d,d+MAXN,INF);
     fill(t,t+MAXN,INF);
-    fill(num,num+MAXN,0);
     num[s] = 1;
     d[s] = 0;
     t[s] = 0;
@@ -23,7 +23,7 @@ void Dijkstra_d(int s){
         //-----------------
         int min = INF,u = -1;
         for(int j=0;j<n;j++){
-            if(d[j]<min){
+            if(!vis[j] && d[j]<min){
                 min = d[j];
                 u = j;
             }
@@ -31,11 +31,10 @@ void Dijkstra_d(int s){
         if(u==-1) break;
         vis[u] = true;
         for(int v=0;v<n;v++){
-            if(G_d[u][v]!=INF && vis[v]){
+            if(G_d[u][v]!=INF && !vis[v]){
                 if(d[u]+G_d[u][v]<d[v]){
                     d[v] = d[u]+G_d[u][v];
                     t[v] = t[u]+G_t[u][v];
-                    num[v] = num[u];
                     path1[v] = u;
                 }
                 else if(d[u]+G_d[u][v]==d[v]){
@@ -44,7 +43,6 @@ void Dijkstra_d(int s){
                         t[v] = t[u]+G_t[u][v]; 
                         path1[v] = u;
                     }
-                    num[v] += num[u];
                 }
             }
         }
@@ -53,17 +51,15 @@ void Dijkstra_d(int s){
 void Dijkstra_t(int s){
     //reset global envir
     fill(vis,vis+MAXN,false);
-    fill(d,d+MAXN,INF);
     fill(t,t+MAXN,INF);
     fill(num,num+MAXN,0);
     num[s] = 1;
-    d[s] = 0;
     t[s] = 0;
     for(int i=0;i<n;i++){
         //-----------------
         int min = INF,u = -1;
         for(int j=0;j<n;j++){
-            if(t[j]<min){
+            if(!vis[j] && t[j]<min){
                 min = t[j];
                 u = j;
             }
@@ -71,20 +67,16 @@ void Dijkstra_t(int s){
         if(u==-1) break;
         vis[u] = true;
         for(int v=0;v<n;v++){
-            if(G_t[u][v]!=INF && vis[v]){
+            if(G_t[u][v]!=INF && !vis[v]){
                 if(t[u]+G_t[u][v]<t[v]){
-                    d[v] = d[u]+G_d[u][v];
                     t[v] = t[u]+G_t[u][v];
-                    num[v] = num[u];
                     path2[v] = u;
+                    num[v] = num[u] + 1;
                 }
                 else if(t[u]+G_t[u][v]==t[v]){
-                    if(d[u]+G_d[u][v]<d[v]){
-                        d[v] = d[u]+G_d[u][v];
-                        t[v] = t[u]+G_t[u][v]; 
+                    if(num[u]+1<num[v]){
                         path2[v] = u;
                     }
-                    num[v] += num[u];
                 }
             }
         }
@@ -109,5 +101,40 @@ int main(){
     scanf("%d%d",&st,&ed);
     Dijkstra_d(st);
     Dijkstra_t(st);
+    vector<int> p1,p2;
+    int p = ed;
+    while(p!=st){
+        p1.push_back(p);
+        p = path1[p];
+    }
+    p1.push_back(st);
+    reverse(p1.begin(),p1.end());
+    p = ed;
+    while(p!=st){
+        p2.push_back(p);
+        p = path2[p];
+    }
+    p2.push_back(st);
+    reverse(p2.begin(),p2.end());
+    if(p1==p2){
+        printf("Distance = %d; Time = %d: ",d[ed],t[ed]);
+        for(int i=0;i<p1.size();i++){
+            printf("%d",p1[i]);
+            if(i<p1.size()-1) printf(" -> ");
+        }
+    }
+    else {
+        printf("Distance = %d: ",d[ed]);
+        for(int i=0;i<p1.size();i++){
+            printf("%d",p1[i]);
+            if(i<p1.size()-1) printf(" -> ");
+        }
+        printf("\n");
+        printf("Time = %d: ",t[ed]);
+        for(int i=0;i<p2.size();i++){
+            printf("%d",p2[i]);
+            if(i<p2.size()-1) printf(" -> ");
+        }
+    }
     return 0;
 }
