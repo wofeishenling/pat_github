@@ -1,42 +1,38 @@
 #include<stdio.h>
 #include<vector>
+#include<map>
 #include<iostream>
 
 using namespace std;
-vector<int> G[1010];
-vector<int> num_pre(1010);
-int N,M;
-vector<int> ans;
-bool isVaild(vector<int>& seq){
-    vector<int> copy(num_pre);
-    for(int i=0;i<N;i++){
-        if(copy[seq[i]]==0){
-            for(int j=0;j<G[seq[i]].size();j++){
-                copy[G[seq[i]][j]]--;
-            }
-        }
-        else{
-            return false;
-        }
+vector<int> input;
+int sum = 0;
+int need_num;
+void backTrack(int cur_level,int cur_multi,int startIndex){
+    //startIndex控制递归横向范围，level控制递归深度
+    if(need_num==cur_level){
+        sum+=cur_multi;
+        return ;
     }
-    return true;
+    for(int i=startIndex;i<input.size();i++){
+        backTrack(cur_level+1,cur_multi*input[i],i+1);
+    }
 }
 int main(){
-    cin >> N >> M;
-    int v1,v2;
-    for(int i=0;i<M;i++){
-        cin>>v1>>v2;
-        G[v1].push_back(v2);
-        num_pre[v2]++;
+    int N;
+    cin >> N;
+    for(int i=0;i<N;i++){
+        int tmp;
+        cin >> tmp;
+        input.push_back(-1*tmp);
     }
-    int k;
-    cin >> k;
-    for(int i=0;i<k;i++){
-        vector<int> seq(N);
-        for(int j=0;j<N;j++) cin >> seq[j];
-        if(!isVaild(seq)) ans.push_back(i);
+    vector<int> ans;
+    for(int i=0;i<=N;i++){
+        sum=0;
+        need_num = i;
+        backTrack(0,1,0);
+        ans.push_back(sum);
     }
-    for(int i=0;i<ans.size();i++){
+    for(int i=1;i<ans.size();i++){
         printf("%d",ans[i]);
         if(i<ans.size()-1) printf(" ");
     }
