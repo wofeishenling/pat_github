@@ -3,49 +3,57 @@
 #include<map>
 #include<vector>
 #include<set>
+#include<algorithm>
 
 using namespace std;
-int score[10001];
 int N;
-int father[10001];
-int findFather(int x){
-    if(father[x]==x) return x;
-    return father[x] = findFather(father[x]);
+bool flag = true;
+int pre[33],in[33];
+struct node{
+    int val;
+    node* left;
+    node* right;
+};
+node* createT(int inl,int inr,int prel,int prer){
+    if(inl>inr) return nullptr;
+    int val_root = pre[prel];
+    int pos_root_in = inl;
+    for(int i=inl;i<=inr;i++){
+        if(in[i] == val_root){
+            pos_root_in = i;
+            break;
+        }
+    }
+    int num_left = pos_root_in - inl;
+    node* root = new node();
+    root->val = val_root;
+    root->left = createT(inl,pos_root_in-1,prel+1,prel+num_left);
+    root->right= createT(pos_root_in+1,inr,prel+num_left+1,prer);
+    return root;
 }
-void Union(int a,int b){
-    int fa = findFather(a);
-    int fb = findFather(b);
-    if(fa!=fb) father[fa] = fb;
-}
-void init(){
-    for(int i=0;i<10001;i++) father[i] = i;
+int isAVL(node* root){
+    if(root==nullptr) return 0;
+    int lh = isAVL(root->left);
+    int rh = isAVL(root->right);
+    if(abs(lh-rh)>1) flag = false;
+    int h = lh>rh?lh:rh;
+    return h;
 }
 int main(){
     cin >> N;
-    init();
-    set<int> total_number;
-    map<int,set<int>> mp;
-    int lead,num,teammate,sco;
-    for(int i=0;i<N;i++){
-        cin >> lead;
-        total_number.insert(lead);
-        cin >> num;
-        for(int j=0;j<num;j++){
-            cin >> teammate;
-            total_number.insert(teammate);
-            if(father[teammate]==teammate){
-                father[teammate]=lead;
-            }
-            else{
-                father[findFather(teammate)] = lead;
-            }
+    while(N--){
+        int n,tmp;
+        cin >> n;
+        for(int i=0;i<n;i++){
+            cin >> tmp;
+            pre[i] = in[i] = tmp;
         }
-        cin >> sco;
-        score[lead] = sco;
+        sort(in,in+n);
+        node* root = createT(0,n-1,0,n-1);
+        flag = true;
+        isAVL(root);
+        if(flag) cout<<"Yes\n";
+        else cout<<"No\n";
     }
-    for(auto e:total_number){
-        mp[findFather(e)].insert(e);
-    }
-    
     return 0;
 }
